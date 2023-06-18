@@ -1,25 +1,18 @@
 Проектирование API видеохостинга
 
 Доступ к контенту каналов:
-GET ~/channel/{channel_id} - получение начальной страницы канала
-POST ~/channel - создание нового канала
-PUT ~/channel/{channel_id} - изменение данных о канале
-DELETE ~/channel/{channel_id} - удаление канала
-GET ~/channel/{channel_id}/videos - получение страницы с видео канала
-GET ~/channel/{channel_id}/about - получение страницы с информацией о канале
+GET ~/users/me - получение информации о текущем пользователе
+PATCH ~/users/me - изменение данных о теущем пользователе
+GET ~/users/{user_id} - получение данных о пользователе по id
+DELETE ~/users/{user_id} - удаление пользователя по id
+PATCH ~/users/{user_id} - изменение данных о пользователе по id
 
 Доступ к видео:
 GET ~/video/{video_id} - доступ к видео
-POST ~/video - публикация видео
-PUT ~/video/{video_id} - изменение данных о видео (название/описание)
-DELETE ~/video/{video_id} - удаление видео
+POST ~/videos/upload - публикация видео
+GET ~/user/{username} - получения списка всех видео пользователя
 
-Лайки/комментарии: (реальных примеров этому я не нашел)
-GET ~/video/{video_id}/comments - выгрузка комментариев 
-POST ~/video/{video_id}/comment - публикация комментария
-PUT ~/video/{video_id}/comment - изменение комментария
-DELETE ~/video/{video_id}/comment - удаление комментария
+Аутентификация:
+POST ~/auth/jwt/login - вход в учетную запись (получение токена)
+POST ~/auth/register - создание пользователя
 
-GET ~/video/{video_id}/likes - выгрузка числа лайков 
-POST ~/video/{video_id}/like - добавление лайка
-DELETE ~/video/{video_id}/like - удаление лайка
