@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="static/cookiesManager.js"></script>
+    <title>UrFUbe</title>
+    <link href="{{ url_for('static', path='auth.css') }}" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+          document.getElementById("signup_form").addEventListener("submit", function (e) {
+            e.preventDefault(); // Cancel the default action
+            signup();
+          });
+        });
+      </script>
+      <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+          document.getElementById("login_form").addEventListener("submit", function (e) {
+            e.preventDefault(); // Cancel the default action
+            login();
+          });
+        });
+      </script>
+  </head>
+ <body>
+    <section class="wrapper">
+      <div class="form signup">
+        <header>Signup</header>
+        <form id="signup_form" method="post">
+          <input id="sign_username" type="text" placeholder="Username" required />
+          <input id="sign_email" type="text" placeholder="Email address" required />
+          <input id="sign_pass" type="password" placeholder="Password" required />
+          <input type="submit" value="Signup" />
+        </form>
+      </div>
+
+      <div class="form login">
+        <header>Login</header>
+        <form id="login_form" method="post">
+          <input id="login_email" type="text" placeholder="Email address" required />
+          <input id="login_pass" type="password" placeholder="Password" required />
+          <input type="submit" value="Login" />
+        </form>
+        <div id="responseArea"></div>
+      </div>
+
+      <script>
+        const wrapper = document.querySelector(".wrapper"),
+          signupHeader = document.querySelector(".signup header"),
+          loginHeader = document.querySelector(".login header");
+
+        loginHeader.addEventListener("click", () => {
+          wrapper.classList.add("active");
+        });
+        signupHeader.addEventListener("click", () => {
+          wrapper.classList.remove("active");
+        });
+
+
+        function signup() {
+            var formElement = document.getElementById('signup_form');
+            fetch('/auth/register', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                          "username": document.getElementById('sign_username').value,
+                          "email": document.getElementById('sign_email').value,
+                          "password": document.getElementById('sign_pass').value})
+                })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("responseArea").innerHTML = data;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+         }
+
+
+        function redirect(token){
+            if(token === 'undefined'){
+              //window.location.replace("/")
+              alert("WRONG DATA!");
+            }else{
+              window.location.replace("/me");
+            }
+
+        }
+
+
+        function login() {
+            var formElement = document.getElementById('login_form');
+            const formData = new FormData();
+            formData.set('username', document.getElementById('login_email').value);
+            formData.set('password', document.getElementById('login_pass').value);
+            fetch('/auth/jwt/login', {
+                      method: 'POST',
+                      body: formData,
+                  })
+                  .then(response => response.json())
+                  .then(response => setCookie("token",response["access_token"],1))
+                  .then(data => {redirect(getCookie("token"))})
+                  .catch(error => {
+                      console.error(error);
+                  });
+        }
+
+      </script>
+    </section>
+  </body>
+</html>

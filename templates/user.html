@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="static/cookiesManager.js"></script>
+    <script src="static/user.js"></script>
+    <title>UrFUbe</title>
+    <link href="{{ url_for('static', path='user.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+    <section class="watch">
+            <div class="watch_wrapper">
+                <input type="text" class="watch_input" id="name" placeholder="Username" required="" onkeydown="onDataInput(this)"/>
+                <label id="label" for="name" class="watch_label">Username</label>
+            </div>
+            <ul id="links_container" class="watch_links">
+            </ul>
+    </section>
+    <section class="upload">
+            <button type="button" class="upload_button" onclick="UploadVideo()"> Upload </button>
+    </section>
+</body>
+</html>

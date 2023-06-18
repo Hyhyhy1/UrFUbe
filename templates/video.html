@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UrFUbe</title>
+    <link href="{{ url_for('static', path='video.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+    <section  class="form">
+            <input type="text" class="watch_input" id="title" placeholder="Title" required="" />
+            <input type="text" class="watch_input" id="desc" placeholder="Description" required="" />
+            <input type="file" name="file" class="file_upload" id="file_upload" required="">
+            <input type="submit" class="upload_button" onclick="UploadVideo()">
+        <div id="responseArea"></div>
+    </section>
+    <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
+    <script>
+        function UploadVideo(){
+            const formData = new FormData();
+            formData.set("title", document.getElementById('title').value);
+            formData.set("description", document.getElementById('desc').value);
+            formData.set("file", document.getElementById('file_upload').files[0])
+            const token = getCookie("token");
+            fetch('/videos/upload', {
+                method: 'POST',
+                headers: {'Authorization': `Bearer ${token}`},
+                body: formData,
+            })
+                .then(response => window.location.replace("/me"))
+                .catch((error) => console.log(error));
+
+    }
+    </script>
+</body>
+</html>
