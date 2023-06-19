@@ -68,10 +68,6 @@
                           "email": document.getElementById('sign_email').value,
                           "password": document.getElementById('sign_pass').value})
                 })
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById("responseArea").innerHTML = data;
-                })
                 .catch(error => {
                     console.error(error);
                 });

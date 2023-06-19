@@ -60,12 +60,12 @@ async def get_video_list(username: str):
 @video_router.get("/index/{video_pk}", response_class=HTMLResponse)
 async def get_video(request: Request, video_pk: int):
     file = await Video.objects.get(pk=video_pk)
-    video_type = file.dict().get('file_type')
-    return templates.TemplateResponse("index.html", {"request": request, "path": video_pk, "type": video_type})
+    file_type = file.dict().get('file_type')
+    return templates.TemplateResponse("index.html", {"request": request, "path": video_pk, "type": file_type})
 
 
 @video_router.get("/videos/upload", response_class=HTMLResponse)
-async def get_video(request: Request):
+async def get_video_upload_page(request: Request):
     return templates.TemplateResponse("video.html", {"request": request})
 
 
